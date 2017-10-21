@@ -9,7 +9,7 @@ class MoneyList(private val currency: Currency, autoTransform: Boolean = false) 
 
     private val list = mutableListOf<Money>()
 
-    private var sum = Money.ZERO
+    private var sum = Money.ZERO.copy(currency = currency)
 
     override val size = list.size
 
@@ -86,4 +86,6 @@ class MoneyList(private val currency: Currency, autoTransform: Boolean = false) 
     override fun set(index: Int, element: Money): Money {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    fun sum(): Money = sum
 }
