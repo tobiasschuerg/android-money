@@ -1,6 +1,4 @@
-[![Release](https://jitpack.io/v/tobiasschuerg/android-money.svg)]
-(https://jitpack.io/#tobiasschuerg/android-money)
-
+![Release](https://jitpack.io/v/tobiasschuerg/android-money.svg)
 # android-money
 
 Simple money and currency library for android (written in kotlin).
