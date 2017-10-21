@@ -5,7 +5,7 @@ package de.tobiasschuerg.money
  *
  * Created by Tobias Schürg on 18.10.2017.
  */
-class MoneyList(private val currency: Currency, autoTransform: Boolean = false) : MutableList<Money> {
+class MoneyList(private val currency: Currency, val autoConvert: Boolean = false) : MutableList<Money> {
 
     private val list = mutableListOf<Money>()
 
@@ -35,24 +35,40 @@ class MoneyList(private val currency: Currency, autoTransform: Boolean = false) 
 
     override fun add(element: Money): Boolean {
         list.add(element)
-        sum += element
+        addToSum(element)
         return true
     }
 
     override fun add(index: Int, element: Money) {
         list.add(index, element)
-        sum += element
+        addToSum(element)
+    }
+
+    private fun addToSum(element: Money) {
+        sum += if (autoConvert) {
+            element.convertInto(currency)
+        } else {
+            element
+        }
+    }
+
+    private fun substractFromSum(element: Money) {
+        sum -= if (autoConvert) {
+            element.convertInto(currency)
+        } else {
+            element
+        }
     }
 
     override fun addAll(index: Int, elements: Collection<Money>): Boolean {
         list.addAll(index, elements)
-        elements.forEach { sum += it }
+        elements.forEach(this::addToSum)
         return true
     }
 
     override fun addAll(elements: Collection<Money>): Boolean {
         list.addAll(elements)
-        elements.forEach { sum += it }
+        elements.forEach(this::addToSum)
         return true
     }
 
@@ -63,28 +79,28 @@ class MoneyList(private val currency: Currency, autoTransform: Boolean = false) 
 
     override fun remove(element: Money): Boolean {
         list.remove(element)
-        sum -= element
+        substractFromSum(element)
         return true
     }
 
     override fun removeAll(elements: Collection<Money>): Boolean {
         val success = list.removeAll(elements)
-        elements.forEach { sum -= it }
+        elements.forEach(this::substractFromSum)
         return success
     }
 
     override fun removeAt(index: Int): Money {
         val element = list.removeAt(index)
-        sum -= element
+        substractFromSum(element)
         return element
     }
 
     override fun retainAll(elements: Collection<Money>): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
     override fun set(index: Int, element: Money): Money {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented")
     }
 
     fun sum(): Money = sum
