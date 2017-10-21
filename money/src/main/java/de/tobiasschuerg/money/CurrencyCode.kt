@@ -5,6 +5,8 @@ import java.util.*
 
 
 /**
+ * Just holds a currency code and is able to fetch the symbol.
+ *
  * Created by Tobias Schürg on 01.08.2017.
  */
 data class CurrencyCode(val code: String) {

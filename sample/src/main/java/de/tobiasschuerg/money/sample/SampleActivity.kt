@@ -3,6 +3,7 @@ package de.tobiasschuerg.money.sample
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import de.tobiasschuerg.money.Currencies
 import de.tobiasschuerg.money.Currency
 import de.tobiasschuerg.money.Money
 
@@ -15,8 +16,8 @@ class SampleActivity : AppCompatActivity() {
         // define currencies and their exchange rates
         // (here we take euro as base currency)
         val euro = Currency("EUR", "Euro", 1.0)
-        val usDollar = Currency("USD", "United States Dollar", 1.17705) // Oct. 17 2017, 21:00
         val bitcoin = Currency("XBT", "Bitcoin", 0.000209580) // Oct. 17 2017, 21:00
+        val usDollar = Currencies.USDOLLAR.withRate(1.17705) // Oct. 17 2017, 21:00
 
 
         // create a money object and use it for calculations.

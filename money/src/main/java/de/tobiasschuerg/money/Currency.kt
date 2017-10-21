@@ -48,7 +48,10 @@ data class Currency(
                 return "$currencyCode: $name"
             }
         }
+    }
 
+    fun withRate(rate: Double): Currency {
+        return copy(rate = BigDecimal(rate))
     }
 
 }

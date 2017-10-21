@@ -57,18 +57,32 @@ data class Money(val amount: BigDecimal = BigDecimal.ZERO, val currency: Currenc
 
     fun isNegative(): Boolean = amount.signum() == -1
 
-    companion object {
-        val ZERO = Money(BigDecimal.ZERO, Currency.NONE)
-    }
-
     fun isZero(): Boolean {
         return amount.setScale(5, RoundingMode.HALF_DOWN).signum() == 0
     }
 
-    fun isNonZero(): Boolean {
-        return amount.setScale(5, RoundingMode.HALF_DOWN).signum() != 0
-    }
+    fun isNonZero(): Boolean = !isZero()
 
     fun abs(): Money = Money(amount.abs(), currency)
+
+    override fun equals(other: Any?): Boolean {
+        if (other is Money) {
+            val codeEquals = currency.currencyCode == other.currency.currencyCode
+            val amountEquals = amount.setScale(MoneyConfig.scale, RoundingMode.HALF_DOWN) == other.amount.setScale(MoneyConfig.scale, RoundingMode.HALF_DOWN)
+            return codeEquals && amountEquals
+        } else {
+            return false
+        }
+    }
+
+    override fun hashCode(): Int {
+        var result = amount.hashCode()
+        result = 31 * result + currency.hashCode()
+        return result
+    }
+
+    companion object {
+        val ZERO = Money(BigDecimal.ZERO, Currency.NONE)
+    }
 
 }
