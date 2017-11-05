@@ -1,5 +1,7 @@
 package de.tobiasschuerg.money
 
+import java.math.BigDecimal
+
 /**
  * List of money which provides additional features such as sum, average, median etc...
  *
@@ -104,4 +106,25 @@ class MoneyList(private val currency: Currency, val autoConvert: Boolean = false
     }
 
     fun sum(): Money = sum
+
+    fun min(): Money? = list.minBy(Money::amount)
+
+    fun max(): Money? = list.maxBy(Money::amount)
+
+    fun median(): Money? {
+        if (list.isNotEmpty()) {
+            val index: Int = list.size / 2
+            return list.sortedBy(Money::amount)[index]
+        } else {
+            return null
+        }
+    }
+
+    fun average(): Money? {
+        return if (list.isNotEmpty()) {
+            sum / BigDecimal(list.size)
+        } else {
+            null
+        }
+    }
 }

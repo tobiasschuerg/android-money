@@ -1,6 +1,5 @@
 package de.tobiasschuerg.money
 
-import android.util.Log
 import java.util.*
 
 
@@ -16,7 +15,7 @@ data class CurrencyCode(val code: String) {
         try {
             symbol = java.util.Currency.getInstance(code).symbol
         } catch (ia: IllegalArgumentException) {
-            Log.w("Currency Code", "Could not find symbol for $code")
+            // Log.w("Currency Code", "Could not find symbol for $code")
             symbol = code
         }
         return symbol

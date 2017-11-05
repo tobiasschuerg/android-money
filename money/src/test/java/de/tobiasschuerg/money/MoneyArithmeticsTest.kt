@@ -72,7 +72,5 @@ class MoneyArithmeticsTest {
         val result1Minus = Money(amount1 - amount2, EURO)
         val result2Minus = money1 - money2
         Assert.assertEquals(result2Minus, result1Minus)
-
-
     }
 }
