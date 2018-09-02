@@ -78,7 +78,7 @@ class MoneyArithmeticsTest {
 
     @Test
     fun timesTwo() {
-        val amount: Double = 7.23
+        val amount = 7.23
         val money = Money(amount, EURO)
 
         val result = (money * 2).amount.toDouble()
