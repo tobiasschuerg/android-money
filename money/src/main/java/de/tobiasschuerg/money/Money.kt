@@ -66,12 +66,12 @@ data class Money(val amount: BigDecimal = BigDecimal.ZERO, val currency: Currenc
     fun abs(): Money = Money(amount.abs(), currency)
 
     override fun equals(other: Any?): Boolean {
-        if (other is Money) {
+        return if (other is Money) {
             val codeEquals = currency.currencyCode == other.currency.currencyCode
             val amountEquals = amount.setScale(MoneyConfig.scale, RoundingMode.HALF_DOWN) == other.amount.setScale(MoneyConfig.scale, RoundingMode.HALF_DOWN)
-            return codeEquals && amountEquals
+            codeEquals && amountEquals
         } else {
-            return false
+            false
         }
     }
 
