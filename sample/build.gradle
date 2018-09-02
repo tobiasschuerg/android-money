@@ -24,8 +24,8 @@ android {
 
 dependencies {
 
-    implementation project(':money')
-    // implementation 'com.github.tobiasschuerg:android-money:v0.5'
+    // implementation project(':money')
+    implementation 'com.github.tobiasschuerg:android-money:v0.5'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

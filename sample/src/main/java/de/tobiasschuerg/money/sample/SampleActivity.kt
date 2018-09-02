@@ -1,5 +1,6 @@
 package de.tobiasschuerg.money.sample
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -7,9 +8,11 @@ import de.tobiasschuerg.money.Currencies
 import de.tobiasschuerg.money.Currency
 import de.tobiasschuerg.money.Money
 import de.tobiasschuerg.money.MoneyList
+import kotlinx.android.synthetic.main.activity_sample.*
 
 class SampleActivity : AppCompatActivity() {
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sample)
@@ -39,7 +42,7 @@ class SampleActivity : AppCompatActivity() {
         moneyList.add(Money(1.27, usDollar))
         moneyList.add(Money(20, usDollar))
         moneyList.add(Money(13.37, usDollar))
-        log("In total I got: ${moneyList.sum()}")
+        text_view.text = "In total I got: ${moneyList.sum()}"
     }
 
     private fun log(message: String) {
