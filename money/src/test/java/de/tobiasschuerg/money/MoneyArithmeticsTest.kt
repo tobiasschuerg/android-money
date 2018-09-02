@@ -3,6 +3,7 @@ package de.tobiasschuerg.money
 import de.tobiasschuerg.money.Currencies.EURO
 import org.junit.Assert
 import org.junit.Test
+import java.math.BigDecimal
 
 class MoneyArithmeticsTest {
 
@@ -72,5 +73,34 @@ class MoneyArithmeticsTest {
         val result1Minus = Money(amount1 - amount2, EURO)
         val result2Minus = money1 - money2
         Assert.assertEquals(result2Minus, result1Minus)
+    }
+
+
+    @Test
+    fun timesTwo() {
+        val amount: Double = 7.23
+        val money = Money(amount, EURO)
+
+        val result = (money * 2).amount.toDouble()
+
+        Assert.assertEquals(result, amount * 2, 0.001)
+    }
+
+    @Test
+    fun timesZero() {
+        val money = Money(amount = 7.23, currency = EURO)
+        val result = money * 0
+
+        Assert.assertTrue(BigDecimal.ZERO.compareTo(result.amount) == 0)
+    }
+
+    @Test
+    fun dividedByTwo() {
+        val amount = 7.23
+        val money = Money(amount, EURO)
+        val result = money / 2
+        val actual = amount / 2
+
+        Assert.assertEquals(result.amount.toDouble(), actual, 0.001)
     }
 }

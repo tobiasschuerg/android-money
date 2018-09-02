@@ -35,6 +35,23 @@ data class Money(val amount: BigDecimal = BigDecimal.ZERO, val currency: Currenc
         return Money(amount.multiply(rate), targetCurrency)
     }
 
+    operator fun times(number: Long): Money {
+        return times(BigDecimal.valueOf(number))
+    }
+
+    operator fun times(number: Double): Money {
+        return times(BigDecimal.valueOf(number))
+    }
+
+    operator fun times(decimal: BigDecimal): Money {
+        val result = amount.multiply(decimal, MathContext.DECIMAL128)
+        return Money(result, currency)
+    }
+
+    operator fun div(number: Long): Money {
+        return div(BigDecimal.valueOf(number))
+    }
+
     operator fun div(number: BigDecimal): Money {
         val result = amount.divide(number, MathContext.DECIMAL128)
         return Money(result, currency)
