@@ -7,19 +7,20 @@ import java.math.BigDecimal
  *
  * Created by Tobias Schürg on 18.10.2017.
  */
-class MoneyList(private val currency: Currency, val autoConvert: Boolean = false) : MutableList<Money> {
+data class MoneyList(private val currency: Currency, private val autoConvert: Boolean = false) : MutableList<Money> {
 
     private val list = mutableListOf<Money>()
 
     private var sum = Money.ZERO.copy(currency = currency)
 
-    override val size = list.size
+    override val size: Int
+        get() = list.size
 
     override fun contains(element: Money) = list.contains(element)
 
     override fun containsAll(elements: Collection<Money>) = list.containsAll(elements)
 
-    override fun get(index: Int): Money = list.get(index)
+    override fun get(index: Int): Money = list[index]
 
     override fun indexOf(element: Money): Int = list.indexOf(element)
 
@@ -33,7 +34,11 @@ class MoneyList(private val currency: Currency, val autoConvert: Boolean = false
 
     override fun listIterator(index: Int) = list.listIterator(index)
 
-    override fun subList(fromIndex: Int, toIndex: Int): MutableList<Money> = subList(fromIndex, toIndex)
+    override fun subList(fromIndex: Int, toIndex: Int): MoneyList {
+        val sublist = MoneyList(currency, autoConvert)
+        sublist.addAll(list.subList(fromIndex, toIndex))
+        return sublist
+    }
 
     override fun add(element: Money): Boolean {
         list.add(element)
@@ -112,11 +117,11 @@ class MoneyList(private val currency: Currency, val autoConvert: Boolean = false
     fun max(): Money? = list.maxBy(Money::amount)
 
     fun median(): Money? {
-        if (list.isNotEmpty()) {
+        return if (list.isNotEmpty()) {
             val index: Int = list.size / 2
-            return list.sortedBy(Money::amount)[index]
+            list.sortedBy(Money::amount)[index]
         } else {
-            return null
+            null
         }
     }
 

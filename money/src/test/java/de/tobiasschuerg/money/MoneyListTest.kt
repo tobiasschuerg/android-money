@@ -24,6 +24,16 @@ class MoneyListTest {
     }
 
     @Test
+    fun test() {
+        Assert.assertEquals(9, list.size)
+        list.add(Money(13, currency))
+        Assert.assertEquals(10, list.size)
+
+        val sum: Money = list.sum()
+        Assert.assertEquals(58, sum.amount.intValueExact())
+    }
+
+    @Test
     fun minMax() {
         Assert.assertEquals(Money(1, currency), list.min())
         Assert.assertEquals(Money(9, currency), list.max())
@@ -38,6 +48,15 @@ class MoneyListTest {
         Assert.assertNull(emptyList.max())
         Assert.assertNull(emptyList.average())
         Assert.assertNull(emptyList.median())
+    }
+
+    @Test
+    fun operations() {
+        val sublist = list.subList(0, 5)
+        Assert.assertEquals(5, sublist.size)
+
+        Assert.assertEquals(1, sublist.min()?.amount?.intValueExact())
+        Assert.assertEquals(6, sublist.max()?.amount?.intValueExact())
     }
 
 }

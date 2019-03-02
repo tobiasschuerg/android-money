@@ -41,11 +41,11 @@ data class Currency(
     }
 
     override fun toString(): String {
-        return currencyCode.getSymbol().let { symbol ->
-            if (symbol != currencyCode.code) {
-                return "$currencyCode: $name ($symbol)"
+        currencyCode.getSymbol().let { symbol ->
+            return if (symbol != currencyCode.code) {
+                "$currencyCode: $name ($symbol)"
             } else {
-                return "$currencyCode: $name"
+                "$currencyCode: $name"
             }
         }
     }
