@@ -6,9 +6,9 @@ import java.text.DecimalFormat
 import java.text.NumberFormat
 
 data class Currency(
-        var currencyCode: CurrencyCode,
-        var name: String,
-        var rate: BigDecimal = BigDecimal.ONE
+    var currencyCode: CurrencyCode,
+    var name: String,
+    var rate: BigDecimal = BigDecimal.ONE
 ) {
 
     constructor(code: String, name: String) : this(CurrencyCode(code), name)
@@ -53,5 +53,4 @@ data class Currency(
     fun withRate(rate: Double): Currency {
         return copy(rate = BigDecimal(rate))
     }
-
 }

@@ -14,5 +14,4 @@ object MoneyConfig {
      * See **BigDecimal.setScale**
      */
     val scale = 10
-
 }

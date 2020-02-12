@@ -14,5 +14,4 @@ object Currencies {
     val USDOLLAR = Currency("USD", "United States Dollar", 1.09) // as of 12.02.2019
 
     // ...
-
 }

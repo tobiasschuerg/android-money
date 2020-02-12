@@ -1,7 +1,6 @@
 package de.tobiasschuerg.money
 
-import java.util.*
-
+import java.util.Locale
 
 /**
  * Just holds a currency code and is able to fetch the symbol.
@@ -27,5 +26,4 @@ data class CurrencyCode(val code: String) {
             return CurrencyCode(currency.currencyCode)
         }
     }
-
 }

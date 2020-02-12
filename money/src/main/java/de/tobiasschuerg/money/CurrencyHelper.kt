@@ -35,5 +35,4 @@ object CurrencyHelper {
             throw IllegalStateException("Unsupported currency format")
         }
     }
-
 }

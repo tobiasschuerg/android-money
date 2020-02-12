@@ -101,5 +101,4 @@ data class Money(val amount: BigDecimal = BigDecimal.ZERO, val currency: Currenc
     companion object {
         val ZERO = Money(BigDecimal.ZERO, Currency.NONE)
     }
-
 }
