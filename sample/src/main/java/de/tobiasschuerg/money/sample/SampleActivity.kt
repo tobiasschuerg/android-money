@@ -2,14 +2,15 @@ package de.tobiasschuerg.money.sample
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import de.tobiasschuerg.money.Currencies
 import de.tobiasschuerg.money.Currency
 import de.tobiasschuerg.money.Money
 import de.tobiasschuerg.money.MoneyList
 import kotlinx.android.synthetic.main.activity_sample.*
 
+@Suppress("MagicNumber")
 class SampleActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
@@ -25,7 +26,6 @@ class SampleActivity : AppCompatActivity() {
         // another way of creating a money from predefined
         val usDollar = Currencies.USDOLLAR.withRate(1.17705) // Oct. 17 2017, 21:00
 
-
         // create a money object and use it for calculations.
         val savedMoney = Money(1337, euro)
         val birthdayMoney = Money(125, usDollar)
@@ -34,7 +34,6 @@ class SampleActivity : AppCompatActivity() {
 
         val bitcoinMoney = savedMoney.convertInto(bitcoin)
         log("I could invest my $availableMoney and get $bitcoinMoney instead")
-
 
         // Summing up:
         val moneyList = MoneyList(usDollar)

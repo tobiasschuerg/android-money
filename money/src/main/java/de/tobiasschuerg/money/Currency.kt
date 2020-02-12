@@ -19,11 +19,10 @@ data class Currency(
     }
 
     fun getFormatter(): NumberFormat {
-        try {
-            return CurrencyHelper.getCurrencyFormatter(currencyCode)
-        } catch (throwable: Throwable) {
-            // throwable.printStackTrace()
-            return DecimalFormat("#.########## " + currencyCode.getSymbol())
+        return try {
+            CurrencyHelper.getCurrencyFormatter(currencyCode)
+        } catch (throwable: IllegalStateException) {
+            DecimalFormat("#.########## " + currencyCode.getSymbol())
         }
     }
 

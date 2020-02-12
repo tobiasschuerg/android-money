@@ -58,5 +58,4 @@ class MoneyListTest {
         Assert.assertEquals(1, sublist.min()?.amount?.intValueExact())
         Assert.assertEquals(6, sublist.max()?.amount?.intValueExact())
     }
-
 }

@@ -7,6 +7,7 @@ import java.math.BigDecimal
  *
  * Created by Tobias Schürg on 18.10.2017.
  */
+@Suppress("TooManyFunctions")
 data class MoneyList(private val currency: Currency, private val autoConvert: Boolean = false) : MutableList<Money> {
 
     private val list = mutableListOf<Money>()

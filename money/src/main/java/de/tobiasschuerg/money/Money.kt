@@ -1,6 +1,5 @@
 package de.tobiasschuerg.money
 
-import java.lang.IllegalArgumentException
 import java.math.BigDecimal
 import java.math.MathContext
 import java.math.RoundingMode
@@ -10,6 +9,7 @@ import java.math.RoundingMode
  *
  * Created by Tobias Schürg on 28.07.2017.
  */
+@Suppress("TooManyFunctions")
 data class Money(val amount: BigDecimal = BigDecimal.ZERO, val currency: Currency) {
 
     constructor(amount: Double, currency: Currency) : this(BigDecimal(amount), currency)
@@ -75,7 +75,7 @@ data class Money(val amount: BigDecimal = BigDecimal.ZERO, val currency: Currenc
     fun isNegative(): Boolean = amount.signum() == -1
 
     fun isZero(): Boolean {
-        return amount.setScale(5, RoundingMode.HALF_DOWN).signum() == 0
+        return amount.setScale(MoneyConfig.scale, RoundingMode.HALF_DOWN).signum() == 0
     }
 
     fun isNonZero(): Boolean = !isZero()
@@ -85,7 +85,9 @@ data class Money(val amount: BigDecimal = BigDecimal.ZERO, val currency: Currenc
     override fun equals(other: Any?): Boolean {
         return if (other is Money) {
             val codeEquals = currency.currencyCode == other.currency.currencyCode
-            val amountEquals = amount.setScale(MoneyConfig.scale, RoundingMode.HALF_DOWN) == other.amount.setScale(MoneyConfig.scale, RoundingMode.HALF_DOWN)
+            val thisAmount = amount.setScale(MoneyConfig.scale, RoundingMode.HALF_DOWN)
+            val otherAmount = other.amount.setScale(MoneyConfig.scale, RoundingMode.HALF_DOWN)
+            val amountEquals = thisAmount == otherAmount
             codeEquals && amountEquals
         } else {
             false

@@ -8,10 +8,14 @@ package de.tobiasschuerg.money
  * Created by Tobias Schürg on 18.10.2017.
  */
 
+@Suppress("MagicNumber")
 object Currencies {
 
-    val EURO = Currency("EUR", "Euro", 1.0) // base rate; of course we're europe
-    val USDOLLAR = Currency("USD", "United States Dollar", 1.09) // as of 12.02.2019
+    // base rate; of course we're europe
+    val EURO = Currency("EUR", "Euro", 1.0)
+
+    // as of 12.02.2019
+    val USDOLLAR = Currency("USD", "United States Dollar", 1.09)
 
     // ...
 }
