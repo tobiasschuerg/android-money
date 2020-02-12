@@ -10,8 +10,8 @@ package de.tobiasschuerg.money
 
 object Currencies {
 
-    val EURO = Currency("EUR", "Euro", 0.0)
-    val USDOLLAR = Currency("USD", "United States Dollar", 0.0)
+    val EURO = Currency("EUR", "Euro", 1.0) // base rate; of course we're europe
+    val USDOLLAR = Currency("USD", "United States Dollar", 1.09) // as of 12.02.2019
 
     // ...
 
