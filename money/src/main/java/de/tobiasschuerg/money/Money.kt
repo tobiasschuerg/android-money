@@ -15,10 +15,14 @@ data class Money(val amount: BigDecimal = BigDecimal.ZERO, val currency: Currenc
     constructor(amount: Double, currency: Currency) : this(BigDecimal(amount), currency)
     constructor(amount: Long, currency: Currency) : this(BigDecimal(amount), currency)
 
-    operator fun plus(money: Money): Money {
-        requireSameCurrency(money)
-        val sum = amount.add(money.amount)
-        return Money(sum, currency)
+    operator fun plus(money: Money): Money = when {
+        this.isZero() -> money
+        money.isZero() -> this
+        else -> {
+            requireSameCurrency(money)
+            val sum = amount.add(money.amount)
+            Money(sum, currency)
+        }
     }
 
     override operator fun compareTo(other: Money): Int {
@@ -59,9 +63,12 @@ data class Money(val amount: BigDecimal = BigDecimal.ZERO, val currency: Currenc
     }
 
     operator fun minus(money: Money): Money {
-        requireSameCurrency(money)
-        val result = amount.subtract(money.amount)
-        return Money(result, currency)
+        return if (money.isZero()) this
+        else {
+            requireSameCurrency(money)
+            val result = amount.subtract(money.amount)
+            Money(result, currency)
+        }
     }
 
     private fun requireSameCurrency(money: Money) {
