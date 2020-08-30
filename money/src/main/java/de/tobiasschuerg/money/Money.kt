@@ -10,7 +10,7 @@ import java.math.RoundingMode
  * Created by Tobias Schürg on 28.07.2017.
  */
 @Suppress("TooManyFunctions")
-data class Money(val amount: BigDecimal = BigDecimal.ZERO, val currency: Currency) {
+data class Money(val amount: BigDecimal = BigDecimal.ZERO, val currency: Currency) : Comparable<Money> {
 
     constructor(amount: Double, currency: Currency) : this(BigDecimal(amount), currency)
     constructor(amount: Long, currency: Currency) : this(BigDecimal(amount), currency)
@@ -21,9 +21,10 @@ data class Money(val amount: BigDecimal = BigDecimal.ZERO, val currency: Currenc
         return Money(sum, currency)
     }
 
-    operator fun compareTo(money: Money): Int {
-        requireSameCurrency(money)
-        return this.amount.compareTo(money.amount)
+    override operator fun compareTo(other: Money): Int {
+        val thisBaseCurrencyAmount = amount.divide(currency.rate, MathContext.DECIMAL32)
+        val otherBaseCurrencyAmount = other.amount.divide(other.currency.rate, MathContext.DECIMAL32)
+        return thisBaseCurrencyAmount.compareTo(otherBaseCurrencyAmount)
     }
 
     override fun toString(): String {
