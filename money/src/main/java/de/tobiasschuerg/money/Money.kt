@@ -3,6 +3,7 @@ package de.tobiasschuerg.money
 import java.math.BigDecimal
 import java.math.MathContext
 import java.math.RoundingMode
+import java.text.DecimalFormat
 
 /**
  * Represents an amount of money in a specific currency.
@@ -32,7 +33,12 @@ data class Money(val amount: BigDecimal = BigDecimal.ZERO, val currency: Currenc
     }
 
     override fun toString(): String {
-        return currency.getFormatter().format(amount)
+        return if (currency == Currency.NONE) {
+            val formatter = DecimalFormat("#.########## (no currency)")
+            formatter.format(amount)
+        } else {
+            currency.getFormatter().format(amount)
+        }
     }
 
     fun convertInto(targetCurrency: Currency): Money {
