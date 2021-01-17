@@ -8,7 +8,7 @@ import org.junit.Test
  */
 class MoneyListTest {
 
-    private val currency = Currency("TST", "TEST", 1.0)
+    private val currency = Currency("EUR", "Euro", 1.0)
     private val list = MoneyList(currency)
 
     init {
