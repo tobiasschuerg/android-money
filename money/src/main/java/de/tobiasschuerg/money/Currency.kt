@@ -31,8 +31,8 @@ data class Currency(
      */
     fun conversionTo(targetCurrency: Currency): BigDecimal {
         return BigDecimal.ONE
-                .divide(rate, MathContext.DECIMAL128)
-                .multiply(targetCurrency.rate)
+            .divide(rate, MathContext.DECIMAL128)
+            .multiply(targetCurrency.rate)
     }
 
     companion object {

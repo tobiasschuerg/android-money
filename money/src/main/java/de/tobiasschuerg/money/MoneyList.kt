@@ -113,9 +113,9 @@ data class MoneyList(private val currency: Currency, private val autoConvert: Bo
 
     fun sum(): Money = sum
 
-    fun min(): Money? = list.minBy(Money::amount)
+    fun min(): Money? = list.minByOrNull(Money::amount)
 
-    fun max(): Money? = list.maxBy(Money::amount)
+    fun max(): Money? = list.minByOrNull(Money::amount)
 
     fun median(): Money? {
         return if (list.isNotEmpty()) {

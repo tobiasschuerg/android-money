@@ -16,8 +16,6 @@ object CurrencyHelper {
         if (currencyFormatter.containsKey(currencyCode.code)) {
             return currencyFormatter[currencyCode.code]!!
         } else {
-            // Timber.i("New currency format: $currencyCode")
-            val start = System.currentTimeMillis()
             val currency = java.util.Currency.getInstance(currencyCode.code)
 
             val locales = NumberFormat.getAvailableLocales()
@@ -26,9 +24,7 @@ object CurrencyHelper {
                 val currencyFormatter = NumberFormat.getCurrencyInstance(locale)
 
                 if (currencyFormatter.currency == currency) {
-                    val end = System.currentTimeMillis()
-                    // Timber.e("Getting currency formatter took " + (end - start) + " millis")
-                    CurrencyHelper.currencyFormatter.put(currencyCode.code, currencyFormatter)
+                    CurrencyHelper.currencyFormatter[currencyCode.code] = currencyFormatter
                     return currencyFormatter
                 }
             }
