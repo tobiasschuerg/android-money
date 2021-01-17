@@ -9,6 +9,7 @@ import de.tobiasschuerg.money.Currency
 import de.tobiasschuerg.money.Money
 import de.tobiasschuerg.money.MoneyList
 import kotlinx.android.synthetic.main.activity_sample.*
+import java.math.BigDecimal
 
 @Suppress("MagicNumber")
 class SampleActivity : AppCompatActivity() {
@@ -37,10 +38,15 @@ class SampleActivity : AppCompatActivity() {
 
         // Summing up:
         val moneyList = MoneyList(usDollar)
-        moneyList.add(Money(100.01, usDollar))
-        moneyList.add(Money(1.27, usDollar))
-        moneyList.add(Money(20, usDollar))
-        moneyList.add(Money(13.37, usDollar))
+        moneyList.add(Money(100, usDollar)) // int
+        moneyList.add(Money(2L, usDollar)) // long
+        moneyList.add(Money(13.37, usDollar)) // double
+        moneyList.add(Money(BigDecimal(3.14159265359), usDollar)) // big decimal
+
+        // not supported as using floats will lead to rounding issues
+        // instead convert your float into double or BigDecimal
+        // moneyList.add(Money(1.27f, usDollar)) // float
+
         text_view.text = "In total I got: ${moneyList.sum()}"
     }
 
