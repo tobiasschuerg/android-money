@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>ForbiddenComment:Currencies.kt$Currencies$* Predefined currencies. * * TODO: create a script which auto-creates this file with current exchange rates. * * Created by Tobias Schürg on 18.10.2017.</ID>
+  </CurrentIssues>
+</SmellBaseline>

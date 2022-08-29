@@ -1,19 +1,19 @@
 buildscript {
-    ext.kotlin_version = '1.4.21'
+    ext.kotlin_version = '1.7.10'
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.1'
+        classpath 'com.android.tools.build:gradle:7.2.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     }
 }
 
 plugins {
-    id "io.gitlab.arturbosch.detekt" version "1.15.0"
-    id "org.jlleitschuh.gradle.ktlint" version "9.4.1"
+    id "io.gitlab.arturbosch.detekt" version "1.21.0"
+    id "org.jlleitschuh.gradle.ktlint" version "11.0.0"
 }
 
 subprojects {
@@ -24,7 +24,7 @@ subprojects {
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         maven { url 'https://jitpack.io' }
     }
 

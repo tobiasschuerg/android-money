@@ -14,7 +14,7 @@ object CurrencyHelper {
 
     fun getCurrencyFormatter(currencyCode: CurrencyCode): NumberFormat {
         if (currencyFormatter.containsKey(currencyCode.code)) {
-            return currencyFormatter[currencyCode.code]!!
+            return currencyFormatter.getValue(currencyCode.code)
         } else {
             val currency = java.util.Currency.getInstance(currencyCode.code)
 
@@ -28,7 +28,7 @@ object CurrencyHelper {
                     return currencyFormatter
                 }
             }
-            throw IllegalStateException("Unsupported currency format")
+            error("Unsupported currency format")
         }
     }
 }

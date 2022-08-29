@@ -3,12 +3,12 @@ package de.tobiasschuerg.money.sample
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import de.tobiasschuerg.money.Currencies
 import de.tobiasschuerg.money.Currency
 import de.tobiasschuerg.money.Money
 import de.tobiasschuerg.money.MoneyList
-import kotlinx.android.synthetic.main.activity_sample.*
 import java.math.BigDecimal
 
 @Suppress("MagicNumber")
@@ -47,7 +47,7 @@ class SampleActivity : AppCompatActivity() {
         // instead convert your float into double or BigDecimal
         // moneyList.add(Money(1.27f, usDollar)) // float
 
-        text_view.text = "In total I got: ${moneyList.sum()}"
+        findViewById<TextView>(R.id.text_view).text = "In total I got: ${moneyList.sum()}"
     }
 
     private fun log(message: String) {

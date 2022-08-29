@@ -1,5 +1,6 @@
 package de.tobiasschuerg.money
 
+import android.util.Log
 import java.math.BigDecimal
 import java.math.MathContext
 import java.text.DecimalFormat
@@ -22,6 +23,7 @@ data class Currency(
         return try {
             CurrencyHelper.getCurrencyFormatter(currencyCode)
         } catch (throwable: IllegalStateException) {
+            Log.v("money", "$throwable no currency formatter found for $currencyCode")
             DecimalFormat("#.########## " + currencyCode.getSymbol())
         }
     }
