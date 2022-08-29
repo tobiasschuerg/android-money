@@ -1,5 +1,6 @@
 package de.tobiasschuerg.money
 
+import de.tobiasschuerg.money.Currencies.EURO
 import org.junit.Assert
 import org.junit.Test
 
@@ -8,8 +9,8 @@ import org.junit.Test
  */
 class MoneyListTest {
 
-    private val currency = Currency("EUR", "Euro", 1.0)
-    private val list = MoneyList(currency)
+    private val currency = EURO
+    private val list = MoneyList(EURO)
 
     init {
         list.add(Money(3, currency))
@@ -57,5 +58,18 @@ class MoneyListTest {
 
         Assert.assertEquals(1, sublist.min()?.amount?.intValueExact())
         Assert.assertEquals(6, sublist.max()?.amount?.intValueExact())
+    }
+
+    @Test
+    fun `test that sum of same currencies is calculated correctly`() {
+        val result = list.sum()
+        Assert.assertEquals(45.00, result.amount.toDouble(), 0.01)
+    }
+
+    @Test
+    fun `test that sum of different currencies is calculated correctly`() {
+        val list2: List<Money> = list.plus(Money(5.37, Currencies.USDOLLAR))
+        val result = list2.sum(EURO)
+        Assert.assertEquals(49.93, result.amount.toDouble(), 0.01)
     }
 }
