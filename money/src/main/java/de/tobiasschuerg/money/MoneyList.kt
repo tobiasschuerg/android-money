@@ -10,7 +10,7 @@ import java.math.BigDecimal
 @Suppress("TooManyFunctions")
 data class MoneyList(private val currency: Currency, private val autoConvert: Boolean = false) : MutableList<Money> {
 
-    private val list = mutableListOf<Money>()
+    private val list: MutableList<Money> = mutableListOf()
 
     private var sum = Money.ZERO.copy(currency = currency)
 
