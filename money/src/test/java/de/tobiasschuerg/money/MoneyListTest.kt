@@ -2,6 +2,7 @@ package de.tobiasschuerg.money
 
 import de.tobiasschuerg.money.Currencies.EURO
 import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 /**
@@ -26,20 +27,20 @@ class MoneyListTest {
 
     @Test
     fun test() {
-        Assert.assertEquals(9, list.size)
+        assertEquals(9, list.size)
         list.add(Money(13, currency))
-        Assert.assertEquals(10, list.size)
+        assertEquals(10, list.size)
 
         val sum: Money = list.sum()
-        Assert.assertEquals(58, sum.amount.intValueExact())
+        assertEquals(58, sum.amount.intValueExact())
     }
 
     @Test
     fun minMax() {
-        Assert.assertEquals(Money(1, currency), list.min())
-        Assert.assertEquals(Money(9, currency), list.max())
-        Assert.assertEquals(Money(5, currency), list.average())
-        Assert.assertEquals(Money(5, currency), list.median())
+        assertEquals(Money(1, currency), list.min())
+        assertEquals(Money(9, currency), list.max())
+        assertEquals(Money(5, currency), list.average())
+        assertEquals(Money(5, currency), list.median())
     }
 
     @Test
@@ -54,22 +55,27 @@ class MoneyListTest {
     @Test
     fun operations() {
         val sublist = list.subList(0, 5)
-        Assert.assertEquals(5, sublist.size)
+        assertEquals(5, sublist.size)
 
-        Assert.assertEquals(1, sublist.min()?.amount?.intValueExact())
-        Assert.assertEquals(6, sublist.max()?.amount?.intValueExact())
+        assertEquals(1, sublist.min()?.amount?.intValueExact())
+        assertEquals(6, sublist.max()?.amount?.intValueExact())
     }
 
     @Test
     fun `test that sum of same currencies is calculated correctly`() {
         val result = list.sum()
-        Assert.assertEquals(45.00, result.amount.toDouble(), 0.01)
+        assertEquals(45.00, result.amount.toDouble(), 0.01)
     }
 
     @Test
     fun `test that sum of different currencies is calculated correctly`() {
         val list2: List<Money> = list.plus(Money(5.37, Currencies.USDOLLAR))
         val result = list2.sum(EURO)
-        Assert.assertEquals(49.93, result.amount.toDouble(), 0.01)
+        assertEquals(49.93, result.amount.toDouble(), 0.01)
+    }
+
+    @Test
+    fun `test that money sum equals summarizing the collection itself`() {
+        assertEquals(list.sum(), list.toList().sum())
     }
 }

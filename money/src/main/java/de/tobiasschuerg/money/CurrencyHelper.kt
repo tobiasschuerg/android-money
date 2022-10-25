@@ -1,6 +1,7 @@
 package de.tobiasschuerg.money
 
 import java.text.NumberFormat
+import java.util.HashMap
 
 /**
  * Static helper for quickly getting currency formatter.
@@ -10,7 +11,7 @@ import java.text.NumberFormat
 
 object CurrencyHelper {
 
-    private val currencyFormatter = hashMapOf<String, NumberFormat>()
+    private val currencyFormatter: HashMap<String, NumberFormat> = hashMapOf()
 
     fun getCurrencyFormatter(currencyCode: CurrencyCode): NumberFormat {
         if (currencyFormatter.containsKey(currencyCode.code)) {
