@@ -1,8 +1,18 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm'
+    id 'maven-publish'
 }
 
 group = 'com.github.tobiasschuerg'
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            artifactId = 'android-money'
+        }
+    }
+}
 
 kotlin {
     jvmToolchain(17)
