@@ -6,8 +6,8 @@ Simple money and currency library for Kotlin/JVM.
 
 ## Create Money
 ```kotlin
-val euro = Currency("EUR", "Euro", 1.0)
-val bitcoin = Currency("XBT", "Bitcoin", 0.000209580)
+val euro = Currencies.EURO
+val usDollar = Currencies.USDOLLAR
 
 val savedMoney = Money(1358.03, euro)
 println("I saved $savedMoney")
@@ -15,21 +15,26 @@ println("I saved $savedMoney")
 > I saved 1.358,03 EUR
 
 ## Convert Money
+Define exchange rates explicitly and convert:
 ```kotlin
-val bitcoinMoney = savedMoney.convertInto(bitcoin)
-println("I could invest my $savedMoney and get $bitcoinMoney instead")
+val eurToUsd = ExchangeRate(euro, usDollar, 1.09)
+
+val dollars = savedMoney.convertInto(eurToUsd)
+println("That's $dollars")
+
+// Convert back using the inverse rate
+val backToEuros = dollars.convertInto(eurToUsd.inverse())
 ```
-> I could invest my 1.358,03 EUR and get 0,28020846 XBT instead
 
 ## Money Calculations
 
 ### Arithmetics
 Use Kotlin operators (`+`, `-`, `*`, `/`):
 ```kotlin
-val savedMoney = Money(1337, euro)
-val birthdayMoney = Money(125, usDollar)
-val availableMoney = savedMoney + birthdayMoney.convertInto(euro)
-println("So in total I've now $availableMoney")
+val savings = Money(1337, euro)
+val bonus = Money(200, euro)
+val total = savings + bonus
+val half = total / 2
 ```
 
 ### Summing up / Average
@@ -39,7 +44,7 @@ moneyList.add(Money(100.01, usDollar))
 moneyList.add(Money(1.27, usDollar))
 moneyList.add(Money(20, usDollar))
 moneyList.add(Money(13.37, usDollar))
-println("In total I got: ${moneyList.sum()}")
+println("Sum: ${moneyList.sum()}")
 println("Average: ${moneyList.average()}")
 ```
 
@@ -61,3 +66,36 @@ dependencies {
     implementation("com.github.tobiasschuerg:android-money:1.0.0")
 }
 ```
+
+## Breaking Changes in 1.0.0
+
+This release converts the library from an Android library to a plain **Kotlin/JVM** library and introduces several breaking API changes.
+
+### Library is now Kotlin/JVM
+The library no longer depends on the Android SDK. It can be used in any Kotlin/JVM project (Android, backend, desktop).
+
+### Currency no longer holds exchange rates
+Previously, `Currency` bundled an exchange rate, making it ambiguous and hard to reuse:
+```kotlin
+// Before (0.x)
+val usd = Currency("USD", "US Dollar", 1.09)
+val dollars = euros.convertInto(usd)
+```
+
+Now, `Currency` is a pure identity type. Exchange rates are modeled explicitly:
+```kotlin
+// After (1.0.0)
+val usd = Currency("USD", "US Dollar")
+val eurToUsd = ExchangeRate(Currencies.EURO, usd, 1.09)
+val dollars = euros.convertInto(eurToUsd)
+```
+
+### compareTo requires same currency
+`Money.compareTo()` previously compared across currencies using implicit rates. It now requires both values to be in the same currency and throws `IllegalArgumentException` otherwise.
+
+### MoneyList no longer supports autoConvert
+The `autoConvert` parameter has been removed. Convert money to the target currency before adding it to the list.
+
+### Removed APIs
+- `Currency.rate`, `Currency.conversionTo()`, `Currency.withRate()`
+- `Collection<Money>.sum(currency)` (cross-currency sum)
