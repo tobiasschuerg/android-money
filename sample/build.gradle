@@ -28,8 +28,7 @@ android {
 
 dependencies {
 
-    debugImplementation project(':money')
-    releaseImplementation 'com.github.tobiasschuerg:android-money:1.0.0'
+    implementation project(':money')
 
     implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
