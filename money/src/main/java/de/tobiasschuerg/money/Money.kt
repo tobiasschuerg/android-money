@@ -7,8 +7,6 @@ import java.text.DecimalFormat
 
 /**
  * Represents an amount of money in a specific currency.
- *
- * Created by Tobias Schürg on 28.07.2017.
  */
 @Suppress("TooManyFunctions")
 data class Money(
@@ -30,13 +28,11 @@ data class Money(
         }
 
     /**
-     * Compares by converting both amounts to a common base (dividing by rate).
-     * This allows cross-currency comparison, unlike [plus]/[minus] which require matching currencies.
+     * Compares amounts. Both values must be in the same currency.
      */
     override operator fun compareTo(other: Money): Int {
-        val thisBaseCurrencyAmount = amount.divide(currency.rate, MathContext.DECIMAL32)
-        val otherBaseCurrencyAmount = other.amount.divide(other.currency.rate, MathContext.DECIMAL32)
-        return thisBaseCurrencyAmount.compareTo(otherBaseCurrencyAmount)
+        requireSameCurrency(other)
+        return amount.compareTo(other.amount)
     }
 
     override fun toString(): String =
@@ -47,9 +43,22 @@ data class Money(
             currency.getFormatter().format(amount)
         }
 
-    fun convertInto(targetCurrency: Currency): Money {
-        val rate = currency.conversionTo(targetCurrency)
-        return Money(amount.multiply(rate), targetCurrency)
+    /**
+     * Convert this money using the given [exchangeRate].
+     * The rate's [ExchangeRate.from] must match this money's currency.
+     *
+     * Example:
+     * ```
+     * val rate = ExchangeRate(EUR, USD, 1.09)
+     * Money(100, EUR).convertInto(rate) // -> Money(109, USD)
+     * ```
+     */
+    fun convertInto(exchangeRate: ExchangeRate): Money {
+        require(currency.currencyCode == exchangeRate.from.currencyCode) {
+            "ExchangeRate.from (${exchangeRate.from}) does not match currency ($currency)"
+        }
+        val converted = amount.multiply(exchangeRate.rate, MathContext.DECIMAL128)
+        return Money(converted, exchangeRate.to)
     }
 
     operator fun times(number: Long): Money = times(BigDecimal.valueOf(number))

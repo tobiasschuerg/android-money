@@ -1,17 +1,17 @@
 package de.tobiasschuerg.money
 
-import java.math.BigDecimal
-import java.math.MathContext
 import java.text.DecimalFormat
 import java.text.NumberFormat
 
+/**
+ * Represents a currency identity (code and name).
+ * Does not hold exchange rates — use [Money.convertInto] with an explicit rate.
+ */
 data class Currency(
     val currencyCode: CurrencyCode,
     val name: String,
-    val rate: BigDecimal = BigDecimal.ONE,
 ) {
     constructor(code: String, name: String) : this(CurrencyCode(code), name)
-    constructor(code: String, name: String, rate: Double) : this(CurrencyCode(code), name, BigDecimal(rate))
 
     operator fun compareTo(another: Currency): Int = this.name.compareTo(another.name)
 
@@ -22,14 +22,6 @@ data class Currency(
             println("money: $throwable no currency formatter found for $currencyCode")
             DecimalFormat("#.########## " + currencyCode.getSymbol())
         }
-
-    /**
-     * Calculated the conversion rate from this currency into a target currency.
-     */
-    fun conversionTo(targetCurrency: Currency): BigDecimal =
-        BigDecimal.ONE
-            .divide(rate, MathContext.DECIMAL128)
-            .multiply(targetCurrency.rate)
 
     companion object {
         val NONE = Currency(code = "NONE", name = "NONE")
@@ -44,6 +36,4 @@ data class Currency(
             }
         }
     }
-
-    fun withRate(rate: Double): Currency = copy(rate = BigDecimal(rate))
 }

@@ -20,20 +20,4 @@ class MoneySortingTest {
         val moneyListSortedManually = listOf(money1, money3, money2)
         assertEquals(moneyListSortedManually, sortedlist)
     }
-
-    @Test
-    fun `test money sorting with different currencies`() {
-        val usd = Currencies.USDOLLAR.withRate(1.09)
-        val money1 = Money(2, EURO)
-        val money2 = Money(2, usd)
-        val money3 = Money(3, EURO)
-
-        val moneyListUnsorted = listOf(money1, money2, money3)
-
-        val sortedlist = moneyListUnsorted.sorted()
-        assertNotEquals(moneyListUnsorted, sortedlist)
-
-        val moneyListSortedManually = listOf(money2, money1, money3)
-        assertEquals(moneyListSortedManually, sortedlist)
-    }
 }

@@ -6,7 +6,7 @@ import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import de.tobiasschuerg.money.Currencies
-import de.tobiasschuerg.money.Currency
+import de.tobiasschuerg.money.ExchangeRate
 import de.tobiasschuerg.money.Money
 import de.tobiasschuerg.money.MoneyList
 import java.math.BigDecimal
@@ -18,33 +18,30 @@ class SampleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sample)
 
-        // define currencies and their exchange rates
-        // (here we take euro as base currency)
-        val euro = Currency("EUR", "Euro", 1.0)
-        val bitcoin = Currency("XBT", "Bitcoin", 0.000209580) // Oct. 17 2017, 21:00
+        val euro = Currencies.EURO
+        val usDollar = Currencies.USDOLLAR
+        val bitcoin = Currencies.BITCOIN
 
-        // another way of creating a money from predefined
-        val usDollar = Currencies.USDOLLAR.withRate(1.17705) // Oct. 17 2017, 21:00
+        // define exchange rates
+        val eurToUsd = ExchangeRate(euro, usDollar, 1.17705)
+        val eurToBtc = ExchangeRate(euro, bitcoin, 0.000209580)
 
-        // create a money object and use it for calculations.
+        // create money and convert between currencies
         val savedMoney = Money(1337, euro)
         val birthdayMoney = Money(125, usDollar)
-        val availableMoney = savedMoney + birthdayMoney.convertInto(euro)
+        val birthdayInEuro = birthdayMoney.convertInto(eurToUsd.inverse())
+        val availableMoney = savedMoney + birthdayInEuro
         log("So in total I've now $availableMoney")
 
-        val bitcoinMoney = savedMoney.convertInto(bitcoin)
+        val bitcoinMoney = savedMoney.convertInto(eurToBtc)
         log("I could invest my $availableMoney and get $bitcoinMoney instead")
 
-        // Summing up:
+        // Summing up (same currency):
         val moneyList = MoneyList(usDollar)
-        moneyList.add(Money(100, usDollar)) // int
-        moneyList.add(Money(2L, usDollar)) // long
-        moneyList.add(Money(13.37, usDollar)) // double
-        moneyList.add(Money(BigDecimal(3.14159265359), usDollar)) // big decimal
-
-        // not supported as using floats will lead to rounding issues
-        // instead convert your float into double or BigDecimal
-        // moneyList.add(Money(1.27f, usDollar)) // float
+        moneyList.add(Money(100, usDollar))
+        moneyList.add(Money(2L, usDollar))
+        moneyList.add(Money(13.37, usDollar))
+        moneyList.add(Money(BigDecimal(3.14159265359), usDollar))
 
         findViewById<TextView>(R.id.text_view).text = "In total I got: ${moneyList.sum()}"
     }

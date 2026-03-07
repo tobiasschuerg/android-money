@@ -3,14 +3,12 @@ package de.tobiasschuerg.money
 import java.math.BigDecimal
 
 /**
- * List of money which provides additional features such as sum, average, median etc...
- *
- * Created by Tobias Schürg on 18.10.2017.
+ * List of money which provides additional features such as sum, average, median etc.
+ * All entries must be in the same [currency].
  */
 @Suppress("TooManyFunctions")
 class MoneyList(
     private val currency: Currency,
-    private val autoConvert: Boolean = false,
 ) : MutableList<Money> {
     private val list: MutableList<Money> = mutableListOf()
 
@@ -41,7 +39,7 @@ class MoneyList(
         fromIndex: Int,
         toIndex: Int,
     ): MoneyList {
-        val sublist = MoneyList(currency, autoConvert)
+        val sublist = MoneyList(currency)
         sublist.addAll(list.subList(fromIndex, toIndex))
         return sublist
     }
@@ -61,12 +59,7 @@ class MoneyList(
     }
 
     private fun addToSum(element: Money) {
-        sum +=
-            if (autoConvert) {
-                element.convertInto(currency)
-            } else {
-                element
-            }
+        sum += element
     }
 
     private fun recalculateSum() {
@@ -75,12 +68,7 @@ class MoneyList(
     }
 
     private fun subtractFromSum(element: Money) {
-        sum -=
-            if (autoConvert) {
-                element.convertInto(currency)
-            } else {
-                element
-            }
+        sum -= element
     }
 
     override fun addAll(

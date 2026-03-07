@@ -1,6 +1,7 @@
 package de.tobiasschuerg.money
 
 import de.tobiasschuerg.money.Currencies.EURO
+import de.tobiasschuerg.money.Currencies.USDOLLAR
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -99,13 +100,29 @@ class MoneyArithmeticsTest {
 
     @Test
     fun `test that money conversion works`() {
-        val usd = Currencies.USDOLLAR.withRate(1.09)
+        val eurToUsd = ExchangeRate(EURO, USDOLLAR, 1.09)
         val initialAmount = 7.23
         val euros = Money(initialAmount, EURO)
-        val dollarConverted = euros.convertInto(usd)
-        val dollarCalculated = Money(initialAmount * usd.rate.toFloat(), usd)
+        val dollarConverted = euros.convertInto(eurToUsd)
+        val dollarCalculated = Money(initialAmount * eurToUsd.rate.toDouble(), USDOLLAR)
 
         assertEquals(dollarConverted.toDouble(), dollarCalculated.toDouble(), 0.0001)
         assertEquals(dollarConverted.toFloat(), dollarCalculated.toFloat())
+    }
+
+    @Test
+    fun `test that inverse conversion works`() {
+        val eurToUsd = ExchangeRate(EURO, USDOLLAR, 1.09)
+        val dollars = Money(109, USDOLLAR)
+        val euros = dollars.convertInto(eurToUsd.inverse())
+
+        assertEquals(100.0, euros.toDouble(), 0.01)
+        assertEquals(EURO, euros.currency)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun `test that conversion with wrong currency throws`() {
+        val eurToUsd = ExchangeRate(EURO, USDOLLAR, 1.09)
+        Money(100, USDOLLAR).convertInto(eurToUsd)
     }
 }

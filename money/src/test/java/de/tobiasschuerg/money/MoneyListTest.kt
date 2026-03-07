@@ -5,9 +5,6 @@ import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-/**
- * Created by Tobias Schürg on 05.11.2017.
- */
 class MoneyListTest {
     private val currency = EURO
     private val list = MoneyList(EURO)
@@ -64,14 +61,6 @@ class MoneyListTest {
     fun `test that sum of same currencies is calculated correctly`() {
         val result = list.sum()
         assertEquals(45.00, result.amount.toDouble(), 0.01)
-    }
-
-    @Test
-    fun `test that sum of different currencies is calculated correctly`() {
-        val usd = Currencies.USDOLLAR.withRate(1.09)
-        val list2: List<Money> = list.plus(Money(5.37, usd))
-        val result = list2.sum(EURO)
-        assertEquals(49.93, result.amount.toDouble(), 0.01)
     }
 
     @Test
