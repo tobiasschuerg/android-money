@@ -66,7 +66,7 @@ data class MoneyList(private val currency: Currency, private val autoConvert: Bo
             }
     }
 
-    private fun substractFromSum(element: Money) {
+    private fun subtractFromSum(element: Money) {
         sum -=
             if (autoConvert) {
                 element.convertInto(currency)
@@ -92,24 +92,26 @@ data class MoneyList(private val currency: Currency, private val autoConvert: Bo
 
     override fun clear() {
         list.clear()
-        sum = Money.ZERO
+        sum = Money.ZERO.copy(currency = currency)
     }
 
     override fun remove(element: Money): Boolean {
-        list.remove(element)
-        substractFromSum(element)
-        return true
+        val removed = list.remove(element)
+        if (removed) {
+            subtractFromSum(element)
+        }
+        return removed
     }
 
     override fun removeAll(elements: Collection<Money>): Boolean {
         val success = list.removeAll(elements)
-        elements.forEach(this::substractFromSum)
+        elements.forEach(this::subtractFromSum)
         return success
     }
 
     override fun removeAt(index: Int): Money {
         val element = list.removeAt(index)
-        substractFromSum(element)
+        subtractFromSum(element)
         return element
     }
 

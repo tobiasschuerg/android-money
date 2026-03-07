@@ -9,14 +9,11 @@ import java.util.Locale
  */
 data class CurrencyCode(val code: String) {
     fun getSymbol(): String {
-        val symbol: String =
-            try {
-                java.util.Currency.getInstance(code).symbol
-            } catch (ia: IllegalArgumentException) {
-                IllegalArgumentException("Could not find symbol for $code", ia).printStackTrace()
-                code
-            }
-        return symbol
+        return try {
+            java.util.Currency.getInstance(code).symbol
+        } catch (_: IllegalArgumentException) {
+            code
+        }
     }
 
     companion object {

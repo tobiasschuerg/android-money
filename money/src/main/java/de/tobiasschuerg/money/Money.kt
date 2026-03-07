@@ -79,9 +79,8 @@ data class Money(val amount: BigDecimal = BigDecimal.ZERO, val currency: Currenc
     }
 
     private fun requireSameCurrency(money: Money) {
-        if (currency.currencyCode != money.currency.currencyCode) {
-            // don't make any implicit conversions
-            require(false) { "Currencies do not match: $currency and ${money.currency}" }
+        require(currency.currencyCode == money.currency.currencyCode) {
+            "Currencies do not match: $currency and ${money.currency}"
         }
     }
 
@@ -110,8 +109,8 @@ data class Money(val amount: BigDecimal = BigDecimal.ZERO, val currency: Currenc
     }
 
     override fun hashCode(): Int {
-        var result = amount.hashCode()
-        result = 31 * result + currency.hashCode()
+        var result = amount.setScale(MoneyConfig.scale, RoundingMode.HALF_DOWN).hashCode()
+        result = 31 * result + currency.currencyCode.hashCode()
         return result
     }
 
