@@ -3,10 +3,10 @@ apply plugin: 'kotlin-android'
 
 android {
     namespace "de.tobiasschuerg.money.sample"
-    compileSdk 34
+    compileSdk 35
     defaultConfig {
         applicationId "de.tobiasschuerg.money.sample"
-        minSdk 14
+        minSdk 21
         versionCode 1
         versionName "Sample"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -31,8 +31,7 @@ dependencies {
     debugImplementation project(':money')
     releaseImplementation 'com.github.tobiasschuerg:android-money:0.9.2'
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
 
 }
