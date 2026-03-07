@@ -4,6 +4,8 @@ import java.math.BigDecimal
 import java.math.MathContext
 import java.math.RoundingMode
 import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.Locale
 
 /**
  * Represents an amount of money in a specific currency.
@@ -101,6 +103,50 @@ data class Money(
     fun isNonZero(): Boolean = !isZero()
 
     fun abs(): Money = Money(amount.abs(), currency)
+
+    operator fun unaryMinus(): Money = Money(amount.negate(), currency)
+
+    /**
+     * Returns a new Money rounded to the given [scale] (decimal places)
+     * using the specified [roundingMode] (default: HALF_UP).
+     */
+    fun rounded(
+        scale: Int = 2,
+        roundingMode: RoundingMode = RoundingMode.HALF_UP,
+    ): Money = Money(amount.setScale(scale, roundingMode), currency)
+
+    /**
+     * Calculates a percentage of this amount.
+     * E.g., `Money(200, EUR).percent(15)` returns `Money(30, EUR)`.
+     */
+    fun percent(percentage: Double): Money {
+        val factor = BigDecimal.valueOf(percentage).divide(BigDecimal("100"), MathContext.DECIMAL128)
+        return Money(amount.multiply(factor, MathContext.DECIMAL128), currency)
+    }
+
+    fun percent(percentage: Int): Money = percent(percentage.toDouble())
+
+    /**
+     * Formats this money amount for the given [locale].
+     */
+    fun format(locale: Locale): String {
+        val formatter = NumberFormat.getCurrencyInstance(locale)
+        try {
+            formatter.currency = java.util.Currency.getInstance(currency.currencyCode.code)
+        } catch (_: IllegalArgumentException) {
+            // Unknown currency code — fall back to number format with code suffix
+            return NumberFormat.getNumberInstance(locale).format(amount) + " " + currency.currencyCode.code
+        }
+        return formatter.format(amount)
+    }
+
+    /**
+     * Creates a [MoneyRange] from this money to [other].
+     */
+    operator fun rangeTo(other: Money): MoneyRange {
+        requireSameCurrency(other)
+        return MoneyRange(this, other)
+    }
 
     override fun equals(other: Any?): Boolean =
         if (other is Money) {
