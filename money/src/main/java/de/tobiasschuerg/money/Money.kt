@@ -11,7 +11,10 @@ import java.text.DecimalFormat
  * Created by Tobias Schürg on 28.07.2017.
  */
 @Suppress("TooManyFunctions")
-data class Money(val amount: BigDecimal = BigDecimal.ZERO, val currency: Currency) : Comparable<Money> {
+data class Money(
+    val amount: BigDecimal = BigDecimal.ZERO,
+    val currency: Currency,
+) : Comparable<Money> {
     constructor(amount: Double, currency: Currency) : this(BigDecimal(amount), currency)
     constructor(amount: Long, currency: Currency) : this(BigDecimal(amount), currency)
 
@@ -36,51 +39,43 @@ data class Money(val amount: BigDecimal = BigDecimal.ZERO, val currency: Currenc
         return thisBaseCurrencyAmount.compareTo(otherBaseCurrencyAmount)
     }
 
-    override fun toString(): String {
-        return if (currency == Currency.NONE) {
+    override fun toString(): String =
+        if (currency == Currency.NONE) {
             val formatter = DecimalFormat("#.########## (no currency)")
             formatter.format(amount)
         } else {
             currency.getFormatter().format(amount)
         }
-    }
 
     fun convertInto(targetCurrency: Currency): Money {
         val rate = currency.conversionTo(targetCurrency)
         return Money(amount.multiply(rate), targetCurrency)
     }
 
-    operator fun times(number: Long): Money {
-        return times(BigDecimal.valueOf(number))
-    }
+    operator fun times(number: Long): Money = times(BigDecimal.valueOf(number))
 
-    operator fun times(number: Double): Money {
-        return times(BigDecimal.valueOf(number))
-    }
+    operator fun times(number: Double): Money = times(BigDecimal.valueOf(number))
 
     operator fun times(decimal: BigDecimal): Money {
         val result = amount.multiply(decimal, MathContext.DECIMAL128)
         return Money(result, currency)
     }
 
-    operator fun div(number: Long): Money {
-        return div(BigDecimal.valueOf(number))
-    }
+    operator fun div(number: Long): Money = div(BigDecimal.valueOf(number))
 
     operator fun div(number: BigDecimal): Money {
         val result = amount.divide(number, MathContext.DECIMAL128)
         return Money(result, currency)
     }
 
-    operator fun minus(money: Money): Money {
-        return if (money.isZero()) {
+    operator fun minus(money: Money): Money =
+        if (money.isZero()) {
             this
         } else {
             requireSameCurrency(money)
             val result = amount.subtract(money.amount)
             Money(result, currency)
         }
-    }
 
     private fun requireSameCurrency(money: Money) {
         require(currency.currencyCode == money.currency.currencyCode) {
@@ -92,16 +87,14 @@ data class Money(val amount: BigDecimal = BigDecimal.ZERO, val currency: Currenc
 
     fun isNegative(): Boolean = amount.signum() == -1
 
-    fun isZero(): Boolean {
-        return amount.setScale(MoneyConfig.SCALE, RoundingMode.HALF_DOWN).signum() == 0
-    }
+    fun isZero(): Boolean = amount.setScale(MoneyConfig.SCALE, RoundingMode.HALF_DOWN).signum() == 0
 
     fun isNonZero(): Boolean = !isZero()
 
     fun abs(): Money = Money(amount.abs(), currency)
 
-    override fun equals(other: Any?): Boolean {
-        return if (other is Money) {
+    override fun equals(other: Any?): Boolean =
+        if (other is Money) {
             val codeEquals = currency.currencyCode == other.currency.currencyCode
             val thisAmount = amount.setScale(MoneyConfig.SCALE, RoundingMode.HALF_DOWN)
             val otherAmount = other.amount.setScale(MoneyConfig.SCALE, RoundingMode.HALF_DOWN)
@@ -110,7 +103,6 @@ data class Money(val amount: BigDecimal = BigDecimal.ZERO, val currency: Currenc
         } else {
             false
         }
-    }
 
     override fun hashCode(): Int {
         var result = amount.setScale(MoneyConfig.SCALE, RoundingMode.HALF_DOWN).hashCode()

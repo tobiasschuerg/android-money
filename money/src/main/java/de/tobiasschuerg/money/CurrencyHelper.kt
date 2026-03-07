@@ -10,14 +10,14 @@ import java.text.NumberFormat
 object CurrencyHelper {
     private val currencyFormatter: MutableMap<String, NumberFormat> = mutableMapOf()
 
-    fun getCurrencyFormatter(currencyCode: CurrencyCode): NumberFormat {
-        return currencyFormatter.getOrPut(currencyCode.code) {
+    fun getCurrencyFormatter(currencyCode: CurrencyCode): NumberFormat =
+        currencyFormatter.getOrPut(currencyCode.code) {
             val currency = java.util.Currency.getInstance(currencyCode.code)
-            NumberFormat.getAvailableLocales()
+            NumberFormat
+                .getAvailableLocales()
                 .asSequence()
                 .map { NumberFormat.getCurrencyInstance(it) }
                 .firstOrNull { it.currency == currency }
                 ?: error("Unsupported currency format: $currencyCode")
         }
-    }
 }

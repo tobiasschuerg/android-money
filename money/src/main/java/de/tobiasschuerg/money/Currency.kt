@@ -13,27 +13,23 @@ data class Currency(
     constructor(code: String, name: String) : this(CurrencyCode(code), name)
     constructor(code: String, name: String, rate: Double) : this(CurrencyCode(code), name, BigDecimal(rate))
 
-    operator fun compareTo(another: Currency): Int {
-        return this.name.compareTo(another.name)
-    }
+    operator fun compareTo(another: Currency): Int = this.name.compareTo(another.name)
 
-    fun getFormatter(): NumberFormat {
-        return try {
+    fun getFormatter(): NumberFormat =
+        try {
             CurrencyHelper.getCurrencyFormatter(currencyCode)
         } catch (throwable: IllegalStateException) {
             println("money: $throwable no currency formatter found for $currencyCode")
             DecimalFormat("#.########## " + currencyCode.getSymbol())
         }
-    }
 
     /**
      * Calculated the conversion rate from this currency into a target currency.
      */
-    fun conversionTo(targetCurrency: Currency): BigDecimal {
-        return BigDecimal.ONE
+    fun conversionTo(targetCurrency: Currency): BigDecimal =
+        BigDecimal.ONE
             .divide(rate, MathContext.DECIMAL128)
             .multiply(targetCurrency.rate)
-    }
 
     companion object {
         val NONE = Currency(code = "NONE", name = "NONE")
@@ -49,7 +45,5 @@ data class Currency(
         }
     }
 
-    fun withRate(rate: Double): Currency {
-        return copy(rate = BigDecimal(rate))
-    }
+    fun withRate(rate: Double): Currency = copy(rate = BigDecimal(rate))
 }

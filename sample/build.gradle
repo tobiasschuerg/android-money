@@ -3,13 +3,14 @@ apply plugin: 'kotlin-android'
 
 android {
     namespace "de.tobiasschuerg.money.sample"
-    compileSdk 35
+    compileSdk = 36
     defaultConfig {
-        applicationId "de.tobiasschuerg.money.sample"
-        minSdk 21
-        versionCode 1
-        versionName "Sample"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        applicationId = "de.tobiasschuerg.money.sample"
+        minSdk = 21
+        targetSdk = 36
+        versionCode = 1
+        versionName = "Sample"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -20,8 +21,8 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled = false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }
@@ -30,7 +31,7 @@ dependencies {
 
     implementation project(':money')
 
-    implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
 
 }

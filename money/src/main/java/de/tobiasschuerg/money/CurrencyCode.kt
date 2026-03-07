@@ -7,14 +7,17 @@ import java.util.Locale
  *
  * Created by Tobias Schürg on 01.08.2017.
  */
-data class CurrencyCode(val code: String) {
-    fun getSymbol(): String {
-        return try {
-            java.util.Currency.getInstance(code).symbol
+data class CurrencyCode(
+    val code: String,
+) {
+    fun getSymbol(): String =
+        try {
+            java.util.Currency
+                .getInstance(code)
+                .symbol
         } catch (_: IllegalArgumentException) {
             code
         }
-    }
 
     companion object {
         fun forDefaultLocale(): CurrencyCode {

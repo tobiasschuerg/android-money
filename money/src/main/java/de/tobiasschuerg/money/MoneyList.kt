@@ -8,7 +8,10 @@ import java.math.BigDecimal
  * Created by Tobias Schürg on 18.10.2017.
  */
 @Suppress("TooManyFunctions")
-class MoneyList(private val currency: Currency, private val autoConvert: Boolean = false) : MutableList<Money> {
+class MoneyList(
+    private val currency: Currency,
+    private val autoConvert: Boolean = false,
+) : MutableList<Money> {
     private val list: MutableList<Money> = mutableListOf()
 
     private var sum = Money.ZERO.copy(currency = currency)
@@ -145,20 +148,18 @@ class MoneyList(private val currency: Currency, private val autoConvert: Boolean
 
     fun max(): Money? = list.maxByOrNull(Money::amount)
 
-    fun median(): Money? {
-        return if (list.isNotEmpty()) {
+    fun median(): Money? =
+        if (list.isNotEmpty()) {
             val index: Int = list.size / 2
             list.sortedBy(Money::amount)[index]
         } else {
             null
         }
-    }
 
-    fun average(): Money? {
-        return if (list.isNotEmpty()) {
+    fun average(): Money? =
+        if (list.isNotEmpty()) {
             sum / BigDecimal(list.size)
         } else {
             null
         }
-    }
 }
