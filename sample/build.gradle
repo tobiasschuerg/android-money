@@ -1,8 +1,7 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
 
 android {
-    namespace "de.tobiasschuerg.money.sample"
+    namespace = "de.tobiasschuerg.money.sample"
     compileSdk = 36
     defaultConfig {
         applicationId = "de.tobiasschuerg.money.sample"
@@ -12,12 +11,8 @@ android {
         versionName = "Sample"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = '17'
+    kotlin {
+        jvmToolchain(17)
     }
     buildTypes {
         release {
