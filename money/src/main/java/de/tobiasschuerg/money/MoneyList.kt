@@ -66,6 +66,11 @@ class MoneyList(private val currency: Currency, private val autoConvert: Boolean
             }
     }
 
+    private fun recalculateSum() {
+        sum = Money.ZERO.copy(currency = currency)
+        list.forEach(this::addToSum)
+    }
+
     private fun subtractFromSum(element: Money) {
         sum -=
             if (autoConvert) {
@@ -104,8 +109,10 @@ class MoneyList(private val currency: Currency, private val autoConvert: Boolean
     }
 
     override fun removeAll(elements: Collection<Money>): Boolean {
-        val success = list.removeAll(elements)
-        elements.forEach(this::subtractFromSum)
+        val success = list.removeAll(elements.toSet())
+        if (success) {
+            recalculateSum()
+        }
         return success
     }
 
@@ -116,14 +123,20 @@ class MoneyList(private val currency: Currency, private val autoConvert: Boolean
     }
 
     override fun retainAll(elements: Collection<Money>): Boolean {
-        TODO("not implemented")
+        val removed = list.filterNot { it in elements }
+        val success = list.retainAll(elements.toSet())
+        removed.forEach(this::subtractFromSum)
+        return success
     }
 
     override fun set(
         index: Int,
         element: Money,
     ): Money {
-        TODO("not implemented")
+        val old = list.set(index, element)
+        subtractFromSum(old)
+        addToSum(element)
+        return old
     }
 
     fun sum(): Money = sum

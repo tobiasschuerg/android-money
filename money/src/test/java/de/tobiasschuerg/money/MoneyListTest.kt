@@ -68,7 +68,8 @@ class MoneyListTest {
 
     @Test
     fun `test that sum of different currencies is calculated correctly`() {
-        val list2: List<Money> = list.plus(Money(5.37, Currencies.USDOLLAR))
+        val usd = Currencies.USDOLLAR.withRate(1.09)
+        val list2: List<Money> = list.plus(Money(5.37, usd))
         val result = list2.sum(EURO)
         assertEquals(49.93, result.amount.toDouble(), 0.01)
     }

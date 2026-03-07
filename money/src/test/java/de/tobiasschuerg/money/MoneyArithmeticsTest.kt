@@ -1,7 +1,6 @@
 package de.tobiasschuerg.money
 
 import de.tobiasschuerg.money.Currencies.EURO
-import de.tobiasschuerg.money.Currencies.USDOLLAR
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -100,10 +99,11 @@ class MoneyArithmeticsTest {
 
     @Test
     fun `test that money conversion works`() {
+        val usd = Currencies.USDOLLAR.withRate(1.09)
         val initialAmount = 7.23
         val euros = Money(initialAmount, EURO)
-        val dollarConverted = euros.convertInto(USDOLLAR)
-        val dollarCalculated = Money(initialAmount * USDOLLAR.rate.toFloat(), USDOLLAR)
+        val dollarConverted = euros.convertInto(usd)
+        val dollarCalculated = Money(initialAmount * usd.rate.toFloat(), usd)
 
         assertEquals(dollarConverted.toDouble(), dollarCalculated.toDouble(), 0.0001)
         assertEquals(dollarConverted.toFloat(), dollarCalculated.toFloat())

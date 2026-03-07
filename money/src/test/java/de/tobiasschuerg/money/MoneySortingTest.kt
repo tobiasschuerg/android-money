@@ -1,7 +1,6 @@
 package de.tobiasschuerg.money
 
 import de.tobiasschuerg.money.Currencies.EURO
-import de.tobiasschuerg.money.Currencies.USDOLLAR
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
@@ -24,8 +23,9 @@ class MoneySortingTest {
 
     @Test
     fun `test money sorting with different currencies`() {
+        val usd = Currencies.USDOLLAR.withRate(1.09)
         val money1 = Money(2, EURO)
-        val money2 = Money(2, USDOLLAR)
+        val money2 = Money(2, usd)
         val money3 = Money(3, EURO)
 
         val moneyListUnsorted = listOf(money1, money2, money3)
