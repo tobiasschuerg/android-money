@@ -8,7 +8,6 @@ package de.tobiasschuerg.money
  * Created by Tobias Schürg on 21.10.2017.
  */
 object MoneyConfig {
-
     /**
      * Scale for comparing.
      * @see [java.math.BigDecimal.setScale]

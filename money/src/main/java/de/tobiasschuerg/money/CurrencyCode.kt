@@ -8,14 +8,14 @@ import java.util.Locale
  * Created by Tobias Schürg on 01.08.2017.
  */
 data class CurrencyCode(val code: String) {
-
     fun getSymbol(): String {
-        val symbol: String = try {
-            java.util.Currency.getInstance(code).symbol
-        } catch (ia: IllegalArgumentException) {
-            IllegalArgumentException("Could not find symbol for $code", ia).printStackTrace()
-            code
-        }
+        val symbol: String =
+            try {
+                java.util.Currency.getInstance(code).symbol
+            } catch (ia: IllegalArgumentException) {
+                IllegalArgumentException("Could not find symbol for $code", ia).printStackTrace()
+                code
+            }
         return symbol
     }
 

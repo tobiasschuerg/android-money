@@ -2,13 +2,21 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 32
+    namespace "de.tobiasschuerg.money.sample"
+    compileSdk 34
     defaultConfig {
-        applicationId "de.tobiasschuerg.money"
-        minSdkVersion 14
+        applicationId "de.tobiasschuerg.money.sample"
+        minSdk 14
         versionCode 1
         versionName "Sample"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
     }
     buildTypes {
         release {

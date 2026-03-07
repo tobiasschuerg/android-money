@@ -7,10 +7,8 @@ import org.junit.Assert.assertNotEquals
 import org.junit.Test
 
 class MoneySortingTest {
-
     @Test
     fun `test money sorting`() {
-
         val money1 = Money(2, EURO)
         val money2 = Money(17.11, EURO)
         val money3 = Money(4.25, EURO)
@@ -26,7 +24,6 @@ class MoneySortingTest {
 
     @Test
     fun `test money sorting with different currencies`() {
-
         val money1 = Money(2, EURO)
         val money2 = Money(2, USDOLLAR)
         val money3 = Money(3, EURO)

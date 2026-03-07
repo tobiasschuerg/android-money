@@ -9,7 +9,6 @@ import org.junit.Test
  * Created by Tobias Schürg on 05.11.2017.
  */
 class MoneyListTest {
-
     private val currency = EURO
     private val list = MoneyList(EURO)
 

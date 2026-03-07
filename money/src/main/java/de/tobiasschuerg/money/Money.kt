@@ -12,19 +12,19 @@ import java.text.DecimalFormat
  */
 @Suppress("TooManyFunctions")
 data class Money(val amount: BigDecimal = BigDecimal.ZERO, val currency: Currency) : Comparable<Money> {
-
     constructor(amount: Double, currency: Currency) : this(BigDecimal(amount), currency)
     constructor(amount: Long, currency: Currency) : this(BigDecimal(amount), currency)
 
-    operator fun plus(money: Money): Money = when {
-        this.isZero() -> money
-        money.isZero() -> this
-        else -> {
-            requireSameCurrency(money)
-            val sum = amount.add(money.amount)
-            Money(sum, currency)
+    operator fun plus(money: Money): Money =
+        when {
+            this.isZero() -> money
+            money.isZero() -> this
+            else -> {
+                requireSameCurrency(money)
+                val sum = amount.add(money.amount)
+                Money(sum, currency)
+            }
         }
-    }
 
     override operator fun compareTo(other: Money): Int {
         val thisBaseCurrencyAmount = amount.divide(currency.rate, MathContext.DECIMAL32)
@@ -69,8 +69,9 @@ data class Money(val amount: BigDecimal = BigDecimal.ZERO, val currency: Currenc
     }
 
     operator fun minus(money: Money): Money {
-        return if (money.isZero()) this
-        else {
+        return if (money.isZero()) {
+            this
+        } else {
             requireSameCurrency(money)
             val result = amount.subtract(money.amount)
             Money(result, currency)
@@ -80,7 +81,7 @@ data class Money(val amount: BigDecimal = BigDecimal.ZERO, val currency: Currenc
     private fun requireSameCurrency(money: Money) {
         if (currency.currencyCode != money.currency.currencyCode) {
             // don't make any implicit conversions
-            throw IllegalArgumentException("Currencies do not match: $currency and ${money.currency}")
+            require(false) { "Currencies do not match: $currency and ${money.currency}" }
         }
     }
 

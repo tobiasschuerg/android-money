@@ -10,7 +10,6 @@ package de.tobiasschuerg.money
 
 @Suppress("MagicNumber")
 object Currencies {
-
     // base rate; of course we're europe
     val EURO = Currency("EUR", "Euro", 1.0)
 

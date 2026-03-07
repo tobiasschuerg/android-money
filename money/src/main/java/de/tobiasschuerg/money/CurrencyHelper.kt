@@ -10,7 +10,6 @@ import java.util.HashMap
  */
 
 object CurrencyHelper {
-
     private val currencyFormatter: HashMap<String, NumberFormat> = hashMapOf()
 
     fun getCurrencyFormatter(currencyCode: CurrencyCode): NumberFormat {

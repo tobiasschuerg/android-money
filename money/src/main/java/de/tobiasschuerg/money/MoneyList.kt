@@ -9,7 +9,6 @@ import java.math.BigDecimal
  */
 @Suppress("TooManyFunctions")
 data class MoneyList(private val currency: Currency, private val autoConvert: Boolean = false) : MutableList<Money> {
-
     private val list: MutableList<Money> = mutableListOf()
 
     private var sum = Money.ZERO.copy(currency = currency)
@@ -35,7 +34,10 @@ data class MoneyList(private val currency: Currency, private val autoConvert: Bo
 
     override fun listIterator(index: Int) = list.listIterator(index)
 
-    override fun subList(fromIndex: Int, toIndex: Int): MoneyList {
+    override fun subList(
+        fromIndex: Int,
+        toIndex: Int,
+    ): MoneyList {
         val sublist = MoneyList(currency, autoConvert)
         sublist.addAll(list.subList(fromIndex, toIndex))
         return sublist
@@ -47,28 +49,36 @@ data class MoneyList(private val currency: Currency, private val autoConvert: Bo
         return true
     }
 
-    override fun add(index: Int, element: Money) {
+    override fun add(
+        index: Int,
+        element: Money,
+    ) {
         list.add(index, element)
         addToSum(element)
     }
 
     private fun addToSum(element: Money) {
-        sum += if (autoConvert) {
-            element.convertInto(currency)
-        } else {
-            element
-        }
+        sum +=
+            if (autoConvert) {
+                element.convertInto(currency)
+            } else {
+                element
+            }
     }
 
     private fun substractFromSum(element: Money) {
-        sum -= if (autoConvert) {
-            element.convertInto(currency)
-        } else {
-            element
-        }
+        sum -=
+            if (autoConvert) {
+                element.convertInto(currency)
+            } else {
+                element
+            }
     }
 
-    override fun addAll(index: Int, elements: Collection<Money>): Boolean {
+    override fun addAll(
+        index: Int,
+        elements: Collection<Money>,
+    ): Boolean {
         list.addAll(index, elements)
         elements.forEach(this::addToSum)
         return true
@@ -107,7 +117,10 @@ data class MoneyList(private val currency: Currency, private val autoConvert: Bo
         TODO("not implemented")
     }
 
-    override fun set(index: Int, element: Money): Money {
+    override fun set(
+        index: Int,
+        element: Money,
+    ): Money {
         TODO("not implemented")
     }
 

@@ -9,10 +9,8 @@ import org.junit.Test
 import java.math.BigDecimal
 
 class MoneyArithmeticsTest {
-
     @Test
     fun `test signum functions on positive money`() {
-
         val money = Money(5, EURO)
 
         assertTrue(money.isPositive())
@@ -23,7 +21,6 @@ class MoneyArithmeticsTest {
 
     @Test
     fun `test signum functions on negative money`() {
-
         val money = Money(-1.2, EURO)
 
         assertFalse(money.isPositive())
