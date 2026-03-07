@@ -13,7 +13,6 @@ import java.math.BigDecimal
 
 @Suppress("MagicNumber")
 class SampleActivity : AppCompatActivity() {
-
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
