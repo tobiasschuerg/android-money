@@ -1,32 +1,16 @@
-apply plugin: 'com.android.application'
+plugins {
+    id 'org.jetbrains.kotlin.jvm'
+    id 'application'
+}
 
-android {
-    namespace = "de.tobiasschuerg.money.sample"
-    compileSdk = 36
-    defaultConfig {
-        applicationId = "de.tobiasschuerg.money.sample"
-        minSdk = 21
-        targetSdk = 36
-        versionCode = 1
-        versionName = "Sample"
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-    kotlin {
-        jvmToolchain(17)
-    }
-    buildTypes {
-        release {
-            minifyEnabled = false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
+application {
+    mainClass = 'de.tobiasschuerg.money.sample.MainKt'
+}
+
+kotlin {
+    jvmToolchain(17)
 }
 
 dependencies {
-
     implementation project(':money')
-
-    implementation 'androidx.appcompat:appcompat:1.7.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
-
 }

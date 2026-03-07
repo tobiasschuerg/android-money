@@ -18,8 +18,7 @@ data class Currency(
     fun getFormatter(): NumberFormat =
         try {
             CurrencyHelper.getCurrencyFormatter(currencyCode)
-        } catch (throwable: IllegalStateException) {
-            println("money: $throwable no currency formatter found for $currencyCode")
+        } catch (_: Exception) {
             DecimalFormat("#.########## " + currencyCode.getSymbol())
         }
 
