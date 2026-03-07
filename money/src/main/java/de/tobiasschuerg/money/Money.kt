@@ -26,6 +26,10 @@ data class Money(val amount: BigDecimal = BigDecimal.ZERO, val currency: Currenc
             }
         }
 
+    /**
+     * Compares by converting both amounts to a common base (dividing by rate).
+     * This allows cross-currency comparison, unlike [plus]/[minus] which require matching currencies.
+     */
     override operator fun compareTo(other: Money): Int {
         val thisBaseCurrencyAmount = amount.divide(currency.rate, MathContext.DECIMAL32)
         val otherBaseCurrencyAmount = other.amount.divide(other.currency.rate, MathContext.DECIMAL32)
@@ -89,7 +93,7 @@ data class Money(val amount: BigDecimal = BigDecimal.ZERO, val currency: Currenc
     fun isNegative(): Boolean = amount.signum() == -1
 
     fun isZero(): Boolean {
-        return amount.setScale(MoneyConfig.scale, RoundingMode.HALF_DOWN).signum() == 0
+        return amount.setScale(MoneyConfig.SCALE, RoundingMode.HALF_DOWN).signum() == 0
     }
 
     fun isNonZero(): Boolean = !isZero()
@@ -99,8 +103,8 @@ data class Money(val amount: BigDecimal = BigDecimal.ZERO, val currency: Currenc
     override fun equals(other: Any?): Boolean {
         return if (other is Money) {
             val codeEquals = currency.currencyCode == other.currency.currencyCode
-            val thisAmount = amount.setScale(MoneyConfig.scale, RoundingMode.HALF_DOWN)
-            val otherAmount = other.amount.setScale(MoneyConfig.scale, RoundingMode.HALF_DOWN)
+            val thisAmount = amount.setScale(MoneyConfig.SCALE, RoundingMode.HALF_DOWN)
+            val otherAmount = other.amount.setScale(MoneyConfig.SCALE, RoundingMode.HALF_DOWN)
             val amountEquals = thisAmount == otherAmount
             codeEquals && amountEquals
         } else {
@@ -109,7 +113,7 @@ data class Money(val amount: BigDecimal = BigDecimal.ZERO, val currency: Currenc
     }
 
     override fun hashCode(): Int {
-        var result = amount.setScale(MoneyConfig.scale, RoundingMode.HALF_DOWN).hashCode()
+        var result = amount.setScale(MoneyConfig.SCALE, RoundingMode.HALF_DOWN).hashCode()
         result = 31 * result + currency.currencyCode.hashCode()
         return result
     }

@@ -1,17 +1,13 @@
 package de.tobiasschuerg.money
 
 /**
- * Configuration for proper calculations.
- *
- * Maybe make this a data class and force initialization before usage?
- *
- * Created by Tobias Schürg on 21.10.2017.
+ * Configuration for money calculations.
  */
 object MoneyConfig {
     /**
-     * Scale for comparing.
+     * Scale used for comparing amounts in [Money.equals] and [Money.isZero].
      * @see [java.math.BigDecimal.setScale]
      */
     @Suppress("MagicNumber")
-    var scale = 10
+    const val SCALE = 10
 }
