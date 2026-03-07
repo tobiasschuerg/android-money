@@ -8,11 +8,12 @@ import org.junit.Test
 class MoneyUtilsTest {
     @Test
     fun `test sum of money list`() {
-        val list = listOf(
-            Money(10.0, EURO),
-            Money(20.0, EURO),
-            Money(30.0, EURO),
-        )
+        val list =
+            listOf(
+                Money(10.0, EURO),
+                Money(20.0, EURO),
+                Money(30.0, EURO),
+            )
         val sum = list.sum()
         assertEquals(60.0, sum.toDouble(), 0.001)
         assertEquals(EURO, sum.currency)
@@ -26,11 +27,12 @@ class MoneyUtilsTest {
 
     @Test
     fun `test sum with zero entries skips them`() {
-        val list = listOf(
-            Money(10.0, EURO),
-            Money.ZERO,
-            Money(5.0, EURO),
-        )
+        val list =
+            listOf(
+                Money(10.0, EURO),
+                Money.ZERO,
+                Money(5.0, EURO),
+            )
         val sum = list.sum()
         assertEquals(15.0, sum.toDouble(), 0.001)
     }
@@ -49,10 +51,11 @@ class MoneyUtilsTest {
 
     @Test(expected = IllegalArgumentException::class)
     fun `test sum of mixed currencies throws`() {
-        val list = listOf(
-            Money(10.0, EURO),
-            Money(20.0, Currencies.USDOLLAR),
-        )
+        val list =
+            listOf(
+                Money(10.0, EURO),
+                Money(20.0, Currencies.USDOLLAR),
+            )
         list.sum()
     }
 }

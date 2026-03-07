@@ -26,6 +26,17 @@ println("That's $dollars")
 val backToEuros = dollars.convertInto(eurToUsd.inverse())
 ```
 
+### Chain Exchange Rates
+Compose multiple rates into a single transitive rate:
+```kotlin
+val jpy = Currency("JPY", "Japanese Yen")
+val eurToUsd = ExchangeRate(euro, usDollar, 1.10)
+val usdToJpy = ExchangeRate(usDollar, jpy, 150.0)
+
+val eurToJpy = eurToUsd.chain(usdToJpy) // EUR -> JPY at 165.0
+val yen = Money(100, euro).convertInto(eurToJpy)
+```
+
 ## Money Calculations
 
 ### Arithmetics
@@ -51,6 +62,42 @@ println("Average: ${moneyList.average()}")
 Or use the extension function on any collection:
 ```kotlin
 val total = listOf(money1, money2, money3).sum()
+```
+
+### Percentage
+```kotlin
+val price = Money(200, euro)
+val tax = price.percent(19)       // 38 EUR
+val tip = price.percent(7.5)      // 15 EUR
+```
+
+### Rounding
+```kotlin
+val precise = Money(12.3456, euro)
+val rounded = precise.rounded()               // 12.35 EUR (2 decimals, HALF_UP)
+val floored = precise.rounded(2, RoundingMode.FLOOR)  // 12.34 EUR
+val integer = precise.rounded(0)              // 12 EUR
+```
+
+### Unary Minus
+```kotlin
+val income = Money(500, euro)
+val expense = -income  // -500 EUR
+```
+
+### Money Range
+Check if an amount falls within a budget:
+```kotlin
+val budget = Money(100, euro)..Money(500, euro)
+val price = Money(250, euro)
+if (price in budget) println("Within budget!")
+```
+
+### Locale Formatting
+```kotlin
+val price = Money(1234.56, usDollar)
+println(price.format(Locale.US))       // $1,234.56
+println(price.format(Locale.GERMANY))  // 1.234,56 $
 ```
 
 ## Add Library
