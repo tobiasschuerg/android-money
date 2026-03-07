@@ -6,9 +6,9 @@ import java.text.DecimalFormat
 import java.text.NumberFormat
 
 data class Currency(
-    var currencyCode: CurrencyCode,
-    var name: String,
-    var rate: BigDecimal = BigDecimal.ONE,
+    val currencyCode: CurrencyCode,
+    val name: String,
+    val rate: BigDecimal = BigDecimal.ONE,
 ) {
     constructor(code: String, name: String) : this(CurrencyCode(code), name)
     constructor(code: String, name: String, rate: Double) : this(CurrencyCode(code), name, BigDecimal(rate))
